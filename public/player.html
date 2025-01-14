@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="player-style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Sequence Player</title>
     <script src="/socket.io/socket.io.js"></script>
     
 </head>
 <body>
-    <div id="main-div">
-      <h1>Sequence</h1>
-      <input id="gameIdInput" placeholder="Enter Game ID" />
-      <button id="joinGameBtn" class="button-88" role="button">Join Game</button>
+    <div id="playerMainDiv">
+    <img class="titleImage" src="images/sequence.png" alt="sequence title">      
+    <input id="gameIdInput" placeholder="Enter Game ID" />
+      <button id="joinGameBtn" class="button-83" role="button">Join Game</button>
       <p id="playerInfo" style="display: none;"></p>
       <h2>Your Cards:</h2>
-      <div id="cards"></div>
+      <div id="playerCards"></div>
     </div>
 
 

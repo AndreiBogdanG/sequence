@@ -4,7 +4,7 @@ let playerCards = [];
 const gameIdInput = document.getElementById('gameIdInput');
 const joinGameBtn = document.getElementById('joinGameBtn');
 const playerInfo = document.getElementById('playerInfo');
-const cardsContainer = document.getElementById('cards');
+const cardsContainer = document.getElementById('playerCards');
 let gameId;
 
 joinGameBtn.addEventListener('click', () => {
@@ -29,7 +29,7 @@ function renderCards() {
     const visibleCards = playerCards.slice(0, 7); 
     visibleCards.forEach((card, index) => {
         const cardElement = document.createElement('div');
-        cardElement.className = 'card';
+        cardElement.className = 'playerCard';
         cardElement.addEventListener('click', () => {
             discardCard(index);
         });
