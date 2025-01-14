@@ -34,3 +34,4 @@ socket.on('cardDiscarded', (card) => {
 function renderDiscardedCard(card) {
     discardedCardsContainer.style.backgroundImage = `URL(images/${card}.png)`
 }
+

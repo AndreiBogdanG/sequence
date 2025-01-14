@@ -14,12 +14,18 @@ const cardsOrder = [
     ]
 const playerDiv = document.getElementById('heldCards')
 let heldCards = []
+let helpOn = false
+const helpContainer = document.getElementById('helpContainer')
+const helpText = document.getElementById('helpText')
+const mainContainer = document.getElementById('main-container')
+const initialContainerPosition = mainContainer.style.position
+
 
 function createCard(id) {
     const card = document.createElement('div');
     card.className = 'card';
     card.style.backgroundImage = `URL(images/${cardsOrder[id]}.png)`
-    card.dataset.colorIndex = 0; // Tracks the current color index
+    card.dataset.colorIndex = 0; 
     card.innerHTML = '<div class="circle"></div>';
 
     card.addEventListener('click', () => {
@@ -41,3 +47,45 @@ for (let i = 0; i < 100; i++) {
     const card = createCard(i);
     board.appendChild(card);
 }
+
+function toggleHelp(){
+    helpOn = !helpOn
+    if (helpOn) {
+        helpContainer.style.visibility = "visible"
+        mainContainer.style.position = "fixed"
+
+
+    } else {
+        helpContainer.style.visibility = "hidden"
+        mainContainer.style.position = initialContainerPosition
+    }
+}
+
+helpText.innerHTML = `
+                <span class='bold larger'>New Game:</span><br> Press the "Create Game" button, then use the QR code to connect two phones. Enter the Game ID on the phones.
+                <hr>
+                <span class='bold larger'>Objective</span><br>
+                Be the first player to create two sequences of five consecutive markers in a row, column, or diagonal on the game board.<hr>
+                <span class='bold larger'>How to Play</span><br>
+                <span class='bold'>1.	Take Turns</span><br>
+                Players alternate turns. The youngest player starts.<br>
+                <span class='bold'>2.	Play a Card</span><br>
+                <hr>
+                <span class='bold'>On your turn:</span><br>
+                <tab>•	Choose a card from your hand to discard.<br>
+                •	Place a marker on the corresponding card space on the board.<br>
+                •	After playing, a new card is automatically drawn from the deck to maintain 7 cards in your hand.<br>
+                <span class='bold'>3.	Wild Cards</span><br>
+                •	Jacks with two visible eyes (J♣, J♦): Place a marker on any open space.<br>
+                •	Jacks with one visible eye (J♠, J♥): Remove an opponent’s marker (not part of a completed sequence).<br>
+                <span class='bold'>4.	Corner Spaces</span><br>
+                The corner spaces are wild and count as part of any sequence. No marker is needed to claim them.<br>
+                <hr>
+                <span class='bold'>Rules</span><br>
+                •	You cannot place a marker on a space that is already occupied.<br>
+                •	You must play a valid card; if you cannot, discard and draw a new card.<br>
+                <hr>
+                <span class='bold'>Winning</span><br>
+                The first player to create two sequences (five markers in a row, column, or diagonal) wins!<br>
+                If the draw pile runs out and no player has won, the game ends in a tie.
+                `
