@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f9;
+    background-color: rgb(9, 68, 9);
+}
+
+#main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 3%;
+    color: yellow;
+}
+
+#gameId{
+    font-size: 3em;
+    font-weight: 700;
+    color: yellow;
+}
+
+#createGameBtn {
+    height: 2em;
+    border-radius: 5px;
+    font-size: 1.5em;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); 
+    grid-template-rows: repeat(10, 1fr); 
+    width: 95vmin; 
+    height: 100vmin; 
+    max-width: 100%; 
+    max-height: 100%; 
+    margin: auto; 
+    gap: 2px; 
+    transform: rotate(-90deg);
+  }
+
+
+  .board > div {
+    background-size: cover; 
+    background-position: center; 
+    aspect-ratio: 2.75 / 4; 
+    border: 1px solid #555; 
+  }
+
+
+.card {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 1px;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    position: relative;
+   
+}
+
+.circle.green {
+    background-color: rgb(17, 161, 12);
+}
+
+.circle.blue {
+    background-color: rgb(46, 46, 250);
+}
+
+.circle.green, .circle.blue{
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3), 
+    inset -2px -2px 4px rgba(255, 255, 255, 0.5), 
+    0 1px 2px rgba(0, 0, 0, 0.2);
+border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.circle.green::before,
+.circle.green::after, 
+.circle.blue::before,
+.circle.blue::after
+
+{
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7) inset;
+}
+
+.circle::before {
+    top: 50%;
+    left: 30%;
+}
+
+.circle::after {
+    top: 30%;
+    right: 30%;
+}
+
+.circle.none {
+    box-shadow: none;
+    background-color: green;
+}
+
+#player{
+    width: 500px;
+    height: 500px;
+    background-color: rgb(116, 116, 116);
+    position: absolute;
+}
+
+#heldCards{
+    display: flex;
+    justify-content:space-evenly ;
+}
+
+#discardedCardsContainer {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  
+}
+
+#discardedCards {
+    background-size: contain;
+    background-position: center;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-image: URL(images/bkgr.png);
+
+}
+
+@media only screen and (max-width: 1000px) {
+    .board{
+        display: none;
+
+    }
+    
+}

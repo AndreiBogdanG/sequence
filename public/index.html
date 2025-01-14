@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Host Game</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="main-container">
+         <h1>Sequence!</h1>
+         <button id="createGameBtn">Create Game</button>
+         <p id="gameIdDisplay" style="display: none;">Game ID: <div id="gameId"></div></p>
+         <p id="waitingForPlayers" style="display: none;">Waiting for players...</p>
+         
+         <div id="discardedCardsContainer">
+            <h2>Discarded Cards</h2>
+            <div id="discardedCards"></div>
+        </div>
+    </div>
+
+    <div class="board" id="board"></div>
+
+
+    <script src="index.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

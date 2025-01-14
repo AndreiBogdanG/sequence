@@ -1,0 +1,70 @@
+body { 
+    font-family: Arial, sans-serif; 
+    color: yellow;
+    background-color:  rgb(9, 68, 9);
+}
+
+#gameIdInput {
+    height: 1.5em;
+    background-color: rgb(17, 40, 17);
+    border-radius: 10px;
+    width: 10em;
+    text-align: center;
+    border: none;
+    box-shadow: 1px 1px 5px rgb(18, 228, 7);
+}
+
+.button-88 {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.8em;
+  padding: 0.7em 1.4em 0.7em 1.1em;
+  background: #ad5389;
+  background: linear-gradient(0deg, rgba(20,167,62,1) 0%, rgba(102,247,113,1) 100%);
+  border: none;
+  box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+  letter-spacing: 0.05em;
+  border-radius: 20em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-88:hover {
+  box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
+}
+
+.button-88:active {
+  box-shadow: 0 0.3em 1em -0.5em #14a73e98;
+}
+
+#cards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 99vw;
+    aspect-ratio: 21 / 4;
+}
+
+
+.card {
+    flex: 1;                       
+    margin: 0 0.5vw;               
+    background-size: cover;
+    background-position: center;  
+    border-radius: 2px;         
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    aspect-ratio: 2.75 /4;
+    height: auto;
+    width: 100px;
+    }
+
+#main-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
