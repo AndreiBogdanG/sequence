@@ -6,8 +6,8 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
-
 let games = {};
+let whoIsNext
 
 app.use(express.static('public'));
 
@@ -19,6 +19,7 @@ function generateDeck() {
 
     for (let suit of suits) {
         for (let value of values) {
+            deck.push(`${suit}${value}`);
             deck.push(`${suit}${value}`);
         }
     }
@@ -40,14 +41,15 @@ io.on('connection', (socket) => {
 
     socket.on('createGame', () => {
         deck = generateDeck();
-        let shuffledDeck = shuffleDeck(deck);  
+        let shuffledDeck = shuffleDeck(deck);
         const gameId = Math.floor(1000 + Math.random() * 9000).toString();
         games[gameId] = { host: socket.id, players: [], deck: shuffledDeck};
         socket.join(gameId);
         socket.emit('gameCreated', gameId);
         console.log('Game created with ID:', gameId);
-        console.log(shuffledDeck)
     });
+
+
 
     socket.on('joinGame', (gameId) => {
         const game = games[gameId];
@@ -63,6 +65,12 @@ io.on('connection', (socket) => {
                 game.deck = game.deck.slice(half); 
                 io.to(socket.id).emit('dealCards', firstPlayerHand);
             } else if (game.players.length === 2) {
+                //emit that all players joined and game started
+                const gameStarted = true;
+                // io.to(game.players[0]).emit('gameStarted', {gameStarted});
+                // io.to(game.players[1]).emit('gameStarted', {gameStarted});
+                io.to(game.players[0]).emit('gameStarted', gameStarted);
+                io.to(game.players[1]).emit('gameStarted', gameStarted);
                
                 io.to(socket.id).emit('dealCards', game.deck);
                 game.deck = []; 
@@ -77,12 +85,16 @@ io.on('connection', (socket) => {
     });
 
 
-    socket.on('cardDiscarded', ({ gameId, card }) => {
-    const game = games[gameId];
-    if (game) {
-        io.to(game.host).emit('cardDiscarded', card);
-    }
+    socket.on('cardDiscarded', ({ gameId, card, youAre }) => {
+       whoIsNext = youAre === 'blue' ? 'green' : 'blue'
+       const game = games[gameId];
+       if (game) {
+        io.to(game.host).emit('cardDiscarded', card, youAre, whoIsNext);
+        io.to(game.players[0]).emit('cardDiscarded', {whoIsNext});
+        io.to(game.players[1]).emit('cardDiscarded', {whoIsNext});
+       }
 });
+
 
     socket.on('dealCards', (gameId) => {
         const game = games[gameId];
@@ -91,7 +103,6 @@ io.on('connection', (socket) => {
  const half = Math.floor(game.deck.length / 2);
  const firstPlayerHand = game.deck.slice(0, half);
  const secondPlayerHand = game.deck.slice(half);
-         
                 io.to(game.players[0]).emit('dealCards', firstPlayerHand);
                 io.to(game.players[1]).emit('dealCards', secondPlayerHand);
     
