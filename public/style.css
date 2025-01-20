@@ -1,3 +1,7 @@
+html, body {
+    overscroll-behavior: none;
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -6,9 +10,9 @@ body {
     height: 100vh;
     margin: 0;
     background-color: rgb(9, 68, 9);
-}
-
-#main-container{
+  }
+  
+  #main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,14 +22,16 @@ body {
     top: 0px;
     left: 3%;
     color: yellow;
-}
-
-#helpLink {
+  }
+  
+  #helpLink {
     margin: 0;
     padding: 0;
     cursor: pointer;
     font-weight: 500;
-    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     width: 10em;
     height: 2.5em;
     text-align: center;
@@ -33,10 +39,10 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    box-shadow: inset  0px 0px 10px rgba(163, 160, 160, 0.1);
-}
-
-#helpContainer {
+    box-shadow: inset 0px 0px 10px rgba(163, 160, 160, 0.1);
+  }
+  
+  #helpContainer {
     width: 100%;
     height: 100vh;
     background-color: rgb(9, 68, 9);
@@ -46,9 +52,9 @@ body {
     justify-content: center;
     align-items: center;
     visibility: hidden;
-}
-
-#helpPage {
+  }
+  
+  #helpPage {
     width: 80vw;
     height: 95vh;
     position: relative;
@@ -56,31 +62,30 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(to bottom, #FEFCF8, #FEFCF8);
+    background-image: linear-gradient(to bottom, #fefcf8, #fefcf8);
     box-sizing: border-box;
     color: #482307;
-
-    box-shadow: inset 2px 2px 34px rgba(0, 0, 0, 0.3), 
-    inset -2px -2px 34px rgba(255, 255, 255, 0.5), 
-    0 1px 2px rgba(0, 0, 0, 0.2);
+  
+    box-shadow: inset 2px 2px 34px rgba(0, 0, 0, 0.3),
+      inset -2px -2px 34px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
     border: 2px solid rgba(0, 0, 0, 0.2);
     font-size: 0.9em;
-}
-
-#helpText{
+  }
+  
+  #helpText {
     width: 80%;
     line-height: 1.3em;
-}
-
-.bold{
+  }
+  
+  .bold {
     font-weight: 700;
-}
-
-.larger {
+  }
+  
+  .larger {
     font-size: 1.5em;
-}
-
-.bgClose {
+  }
+  
+  .bgClose {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40px' height='40px' viewbox='0 0 40 40'%3E%3Cpath d='M 10,10 L 30,30 M 30,10 L 10,30' stroke='black' stroke-width='4' stroke-linecap='butt' /%3E%3C/svg%3E");
     background-size: 100%;
     width: 50px;
@@ -90,57 +95,54 @@ body {
     top: 1em;
     cursor: pointer;
   }
-
-
-#qrImage {
+  
+  #qrImage {
     width: 150px;
-}
-
-.titleImage{
+  }
+  
+  .titleImage {
     width: 250px;
     margin-top: 1em;
-}
-
-#gameId{
+  }
+  
+  #gameId {
     font-size: 3em;
     font-weight: 700;
     color: yellow;
-}
-
-#gameIdDisplay {
+  }
+  
+  #gameIdDisplay {
     display: none;
     color: rgb(222, 219, 219);
-}
-
-#createGameBtn {
+  }
+  
+  #createGameBtn {
     height: 2em;
     border-radius: 5px;
     font-size: 1.5em;
-}
-
-.board {
+  }
+  
+  .board {
     display: grid;
-    grid-template-columns: repeat(10, 1fr); 
-    grid-template-rows: repeat(10, 1fr); 
-    width: 95vmin; 
-    height: 100vmin; 
-    max-width: 100%; 
-    max-height: 100%; 
-    margin: auto; 
-    gap: 8px; 
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    width: 95vmin;
+    height: 100vmin;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    gap: 8px;
     transform: rotate(-90deg);
   }
-
-
+  
   .board > div {
-    background-size: cover; 
-    background-position: center; 
-    aspect-ratio: 2.75 / 4; 
-    border: 1px solid #555; 
+    background-size: cover;
+    background-position: center;
+    aspect-ratio: 2.75 / 4;
+    border: 1px solid #555;
   }
-
-
-.card {
+  
+  .card {
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -152,97 +154,102 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     padding: 1px;
-}
-
-.circle {
+  }
+  
+  .circle {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     background-color: transparent;
     transition: background-color 0.3s, box-shadow 0.3s;
     position: relative;
-   
-}
-
-.circle.green {
+  }
+  
+  .circle.green {
     background-color: rgb(17, 161, 12);
-}
-
-.circle.blue {
+  }
+  
+  .circle.blue {
     background-color: rgb(46, 46, 250);
-}
-
-.circle.green, .circle.blue{
-    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3), 
-    inset -2px -2px 4px rgba(255, 255, 255, 0.5), 
-    0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .circle.white {
+    background-color: rgb(0, 0, 0, 0.7);
+    border: 1px solid rgb(225, 255, 0);
+  }
+  
+  .circle.none {
+    background: unset !important;
+  }
+  
+  .circle.green,
+  .circle.blue {
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+      inset -2px -2px 4px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
     border: 2px solid rgba(0, 0, 0, 0.2);
-}
-
-.circle.green::before,
-.circle.green::after, 
-.circle.blue::before,
-.circle.blue::after
-
-{
-    content: '';
+  }
+  
+  .circle.green::before,
+  .circle.green::after,
+  .circle.blue::before,
+  .circle.blue::after {
+    content: "";
     position: absolute;
     width: 6px;
     height: 6px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
     box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7) inset;
-}
-
-.circle::before {
+  }
+  
+  .circle::before {
     top: 50%;
     left: 30%;
-}
-
-.circle::after {
+  }
+  
+  .circle::after {
     top: 30%;
     right: 30%;
-}
-
-.circle.none {
+  }
+  
+  .circle.none {
     box-shadow: none;
     background-color: green;
-}
-
-#player{
+  }
+  
+  #player {
     width: 500px;
     height: 500px;
     background-color: rgb(116, 116, 116);
     position: absolute;
-}
-
-#heldCards{
+  }
+  
+  #heldCards {
     display: flex;
-    justify-content:space-evenly ;
-}
-
-#discardedCardsContainer {
+    justify-content: space-evenly;
+  }
+  
+  #discardedCardsContainer {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
+  }
   
-}
-
-#discardedCards {
+  #discardedCards {
     background-size: contain;
     background-position: center;
     height: 100px;
     background-repeat: no-repeat;
-}
-
-body { 
-    font-family: Arial, sans-serif; 
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
     color: yellow;
-    background-color:  rgb(9, 68, 9);
-}
-
-#gameIdInput {
+    background-color: rgb(9, 68, 9);
+  }
+  
+  #gameIdInput {
     height: 1.5em;
     background-color: rgb(17, 40, 17);
     border-radius: 10px;
@@ -251,133 +258,132 @@ body {
     border: none;
     box-shadow: 1px 1px 5px rgb(18, 228, 7);
     color: rgb(18, 228, 7);
-}
-
-
-
-.button-83 {
-  appearance: button;
-  background-color: transparent;
-  background-image: linear-gradient(to bottom, #fff, #f8eedb);
-  border: 0 solid #e5e7eb;
-  border-radius: .5rem;
-  box-sizing: border-box;
-  color: #482307;
-  column-gap: 1rem;
-  cursor: pointer;
-  display: flex;
-  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: 100%;
-  font-weight: 700;
-  line-height: 14px;
-  margin: 0;
-  outline: 2px solid transparent;
-  padding: 1rem 1.5rem;
-  text-align: center;
-  text-transform: none;
-  transition: all .1s cubic-bezier(.4, 0, .2, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  box-shadow: -6px 8px 10px rgba(81,41,10,0.1),0px 2px 2px rgba(81,41,10,0.2);
-}
-
-.button-83:active {
-  background-color: #f3f4f6;
-  box-shadow: -1px 2px 5px rgba(81,41,10,0.15),0px 1px 1px rgba(81,41,10,0.15);
-  transform: translateY(0.125rem);
-}
-
-.button-83:focus {
-  box-shadow: rgba(72, 35, 7, .46) 0 0 0 4px, -6px 8px 10px rgba(81,41,10,0.1), 0px 2px 2px rgba(81,41,10,0.2);
-}
-
-#playerInfo {
-  text-align: center;
-}
-
-
-
-
-#playerCards {
+  }
+  
+  .button-83 {
+    appearance: button;
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, #fff, #f8eedb);
+    border: 0 solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    color: #482307;
+    column-gap: 1rem;
+    cursor: pointer;
+    display: flex;
+    font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 100%;
+    font-weight: 700;
+    line-height: 14px;
+    margin: 0;
+    outline: 2px solid transparent;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    text-transform: none;
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    box-shadow: -6px 8px 10px rgba(81, 41, 10, 0.1),
+      0px 2px 2px rgba(81, 41, 10, 0.2);
+  }
+  
+  .button-83:active {
+    background-color: #f3f4f6;
+    box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15),
+      0px 1px 1px rgba(81, 41, 10, 0.15);
+    transform: translateY(0.125rem);
+  }
+  
+  .button-83:focus {
+    box-shadow: rgba(72, 35, 7, 0.46) 0 0 0 4px,
+      -6px 8px 10px rgba(81, 41, 10, 0.1), 0px 2px 2px rgba(81, 41, 10, 0.2);
+  }
+  
+  #playerInfo {
+    text-align: center;
+  }
+  
+  #playerCards {
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 800px;
     aspect-ratio: 21 / 4;
     margin-bottom: 3em;
-}
-
-
-.playerCard {
-    flex: 1;                       
-    margin: 0 0.5vw;               
+  }
+  
+  .playerCard {
+    flex: 1;
+    margin: 0 0.5vw;
     background-size: cover;
-    background-position: center;  
-    border-radius: 2px;         
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    background-position: center;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     aspect-ratio: 2.75 /4;
     width: 100px;
     margin-bottom: 3em;
-    }
-
-#playerMainDiv{
+  }
+  
+  #playerMainDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
-}
-
-
-
-
-@media only screen and (max-width: 1000px) {
-
+  }
+  
+  @media only screen and (max-width: 1000px) {
     body {
-        display: flex;
-        flex-direction: column;
-        height: auto;
+      display: flex;
+      flex-direction: column;
+      height: auto;
     }
-
+  
     #main-container {
-        position: static; 
-        width: 100%; 
-        margin-bottom: 20px; 
+      position: static;
+      width: 100%;
+      margin-bottom: 20px;
     }
-
+  
     .board {
-        transform: none; 
-        width: 90vw; 
-        height: auto; 
-        max-width: 600px; 
-        margin: 0;
-        gap: 1px; 
-
+      transform: none;
+      width: 90vw;
+      height: auto;
+      max-width: 600px;
+      margin: 0;
+      gap: 1px;
     }
-
+  
+    #endTurnBtn {
+      visibility: hidden;
+      margin-bottom: 2em;
+    }
+  
     #playerCards {
-        width: 95%; 
+      width: 95%;
     }
-
+  
     #helpText {
-        font-size: 0.9em; 
+      font-size: 0.9em;
     }
-
+  
     .bgClose {
-        width: 35px;
-        height: 35px;
+      width: 35px;
+      height: 35px;
     }
-
+  
     #helpContainer {
-        position: fixed;
-        top: 0;
-        left: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
     }
-    
+  
     #helpPage {
-        width: 100vw;
-        height: auto;
-        margin: auto;
+      width: 100vw;
+      height: auto;
+      margin: auto;
     }
-
-}
+  }
+  

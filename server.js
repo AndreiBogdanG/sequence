@@ -7,7 +7,8 @@ const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 let games = {};
-let whoIsNext
+let whoIsNext = 'blue'
+let youAre = 'green'
 
 app.use(express.static('public'));
 
@@ -56,23 +57,21 @@ io.on('connection', (socket) => {
         if (game && game.players.length < 2) {
             game.players.push(socket.id);
             socket.join(gameId);
-    
-            
+                
             if (game.players.length === 1) {
                
                 const half = Math.floor(game.deck.length / 2);
                 const firstPlayerHand = game.deck.slice(0, half);
+                // const player='green'
                 game.deck = game.deck.slice(half); 
-                io.to(socket.id).emit('dealCards', firstPlayerHand);
+                io.to(socket.id).emit('dealCards', firstPlayerHand, 'green');
             } else if (game.players.length === 2) {
                 //emit that all players joined and game started
                 const gameStarted = true;
-                // io.to(game.players[0]).emit('gameStarted', {gameStarted});
-                // io.to(game.players[1]).emit('gameStarted', {gameStarted});
                 io.to(game.players[0]).emit('gameStarted', gameStarted);
                 io.to(game.players[1]).emit('gameStarted', gameStarted);
                
-                io.to(socket.id).emit('dealCards', game.deck);
+                io.to(socket.id).emit('dealCards', game.deck, 'blue');
                 game.deck = []; 
             }
     
@@ -90,9 +89,7 @@ io.on('connection', (socket) => {
        const game = games[gameId];
        if (game) {
         io.to(game.host).emit('cardDiscarded', card, youAre, whoIsNext);
-        io.to(game.players[0]).emit('cardDiscarded', {whoIsNext});
-        io.to(game.players[1]).emit('cardDiscarded', {whoIsNext});
-       }
+    }
 });
 
 
@@ -122,6 +119,17 @@ io.on('connection', (socket) => {
             }
         }
     });
+
+    socket.on('turnEnded', (gameId, youAre) => {
+        const game = games[gameId];
+        whoIsNext = youAre === 'blue' ? 'green' : 'blue'
+        if (game) {
+            io.to(game.host).emit('turnEnded')
+           io.to(game.players[0]).emit('turnEnded', whoIsNext);
+           io.to(game.players[1]).emit('turnEnded', whoIsNext);
+        }
+    });
+
 });
 
 server.listen(PORT, () => {

@@ -57,46 +57,103 @@ const waitingForPlayers = document.getElementById('waitingForPlayers');
 const gameIdSpan = document.getElementById('gameId');
 let lastDiscarded  
 let whoIsNext = 'green'
+let availableCardsArray = []
+let availableCirclesArray = []
+let blueLines = 0
+let greenLines = 0
+let initialCardsArray = []
+let currentPlayer 
 
-
+//pressing Escape closes the instructions window
+const OnEscapePressed = (event) => event.key === 'Escape' && EscapePressed();
+document.addEventListener('keydown', OnEscapePressed);
+const EscapePressed = () => {
+    helpContainer.style.visibility = "hidden"
+};
 
 function createCard(id) {
     const card = document.createElement('div');
     card.className = `card ${cardsOrder[id]}`;
+    card.id = `card${id}`   
     card.style.backgroundImage = `URL(images/${cardsOrder[id]}.png)`
     card.dataset.colorIndex = 0; 
-    card.innerHTML = '<div class="circle"></div>';
+    card.innerHTML = `<div class="circle" id="circle${id}"></div>`;
+
+    card.style.border = 'none'
+
+
+   function handleCardClick(){
+
+    const currentCircle = document.getElementById(`circle${id}`)
+    const randomNumber = Math.floor(Math.random()*360)
+    currentCircle.style.transform = `rotate(${randomNumber}deg)`
+    const isOneEyedJack = (lastDiscarded === 'h12' || lastDiscarded === 's12')
+
+    if (card.style.border === 'none'){
+        return
+       }
+
+       isOneEyedJack ?  restoreCircles(availableCirclesArray) :  clearCircles(availableCirclesArray)
+
+        if (isOneEyedJack)  {   
+            currentCircle.classList.add('none')
+            currentCircle.classList.remove(`blue`)
+            currentCircle.classList.remove(`green`)
+            currentCircle.classList.remove(`white`)
+
+        } else if (currentCircle.className.includes('white')){ 
+            
+         currentCircle.classList.remove('white')
+         currentCircle.classList.remove(`blue`)
+         currentCircle.classList.remove(`green`)
+         currentCircle.classList.add(`${colors[1]}`)
+        }  
+
+        check5inARow()  
+   } 
 
     card.addEventListener('click', () => {
-        let conditions = true;
-        let currentIndex = parseInt(card.dataset.colorIndex);
-        const circle = card.querySelector('.circle');
-        //does the discarded card equal the clicked card? Is the clicked card occupied by opponent? Is it a corner?
-        if (cardsOrder[id] !== lastDiscarded || 
-                  (currentIndex !== 0 && !circle.className.includes(colors[currentIndex]))  
-        ){
-            conditions = false
-        }
 
-        if (conditions || (['d12', 'c12', 's12', 'h12'].includes(lastDiscarded) && cardsOrder[id] !== "back")) {
-
-        currentIndex = (currentIndex + 1) % colors.length;
-        card.dataset.colorIndex = currentIndex;
-
-        circle.className = 'circle'; 
-        if (colors[currentIndex] !== 'none') {
-            circle.classList.add(colors[currentIndex]);
-        }
-    }
-    });
+        handleCardClick()});
 
     return card;
 }
-
+//render the cards on the board:
 for (let i = 0; i < 100; i++) {
     const card = createCard(i);
     board.appendChild(card);
 }
+
+// mark corners as green and blue, so they count for the winners
+const cornersArray = ['circle0', 'circle9', 'circle90', 'circle99']
+cornersArray.forEach(circle => {
+    document.getElementById(circle).classList.add('green') 
+    document.getElementById(circle).classList.add('blue') 
+    document.getElementById(circle).classList.add('none') 
+})
+
+
+function clearCircles(arr){
+    arr.forEach((circle, id) => {
+        circle.classList.remove('green');
+        circle.classList.remove('blue');  
+        circle.classList.remove('none');  
+        circle.classList.add('white')
+   })
+}
+
+function restoreCircles(arr){
+      arr.forEach((circle, id) => {
+
+        const opponent = whoIsNext === 'green' ? 'green' : 'blue'
+        circle.classList.remove('white');
+        circle.classList.remove('none');  
+        circle.classList.remove(`${whoIsNext}`);  
+
+        circle.classList.add(`${opponent}`)
+   })
+}
+
 
 function toggleHelp(){
     helpOn = !helpOn
@@ -108,7 +165,6 @@ function toggleHelp(){
         mainContainer.style.position = initialContainerPosition
     }
 }
-
 
 createGameBtn.addEventListener('click', () => {
     socket.emit('createGame');
@@ -132,17 +188,221 @@ socket.on('gameEnded', (message) => {
     location.reload();
 });
 
-const discardedCardsContainer = document.getElementById('discardedCards');
+const discardedCardsDiv = document.getElementById('discardedCards');
+const discardedCardsContainer = document.getElementById('discardedCardsContainer');
 
-socket.on('cardDiscarded', (card, youAre, whoIsNext) => {
-        
-    whoIsNext = whoIsNext
+socket.on('cardDiscarded', (card, youAre, next) => {
+    availableCirclesArray=[]
+    whoIsNext = next
+    currentPlayer = youAre
     renderDiscardedCard(card);
     lastDiscarded = card;
     colors.pop()
     colors.push(youAre)
+    showAvailableSpots(youAre);
 });
 
 function renderDiscardedCard(card) {
-    discardedCardsContainer.style.backgroundImage = `URL(images/${card}.png)`
+    discardedCardsDiv.style.backgroundImage = `URL(images/${card}.png)`
+
+    discardedCardsContainer.style.backgroundColor = currentPlayer === 'green' ? ' rgb(9, 68, 9)' : 'rgb(9, 54, 68)'
+    
+    cardsOrder.forEach((card, id) => {
+        unmarkAvailable(id)
+    })
+
+}
+
+function markAsAvailable(index){
+    
+   const card = document.getElementById(`card${index}`)
+   const circle = document.getElementById(`circle${index}`)
+
+   if (!circle.classList.contains('blocked')){
+      card.style.border = '1px solid rgb(225, 255, 0)'
+      card.style.boxShadow = '0 0 20px rgb(225, 255, 0)'
+      circle.classList.add('white');   
+      availableCirclesArray.push(circle)
+      availableCardsArray.push(card)
+   }
+        
+}
+
+function unmarkAvailable(index){
+    const card = document.getElementById(`card${index}`)
+    const circle = document.getElementById(`circle${index}`)
+         card.style.border = 'none'
+         circle.classList.remove('white');   
+         card.style.boxShadow = 'none'
+}
+
+function hideAvailableSpots(){
+    availableCirclesArray.forEach(circle => {
+        circle.classList.remove('white'); 
+    })
+    availableCardsArray.forEach(card => {
+        card.style.border = 'none'
+        card.style.boxShadow = 'none' 
+    })
+}
+
+socket.on('turnEnded', () => {
+    hideAvailableSpots()
+})
+
+
+function showAvailableSpots(youAre){
+    const jack1 = (lastDiscarded ==='c12' || lastDiscarded === 'd12')
+    const jack2 = (lastDiscarded ==='h12' || lastDiscarded === 's12')
+
+     cardsOrder.forEach((card, id) =>{
+        const circle = document.getElementById(`circle${id}`)
+        const circleEmpty = !circle.classList.contains('green') && !circle.classList.contains('blue')
+        const circleGreen = circle.classList.contains('green')
+        const circleBlue = circle.classList.contains('blue')
+
+        //any available space:
+        if (jack1 && card !== 'back' && circleEmpty){
+           markAsAvailable(id)
+        } else 
+        //space occupied by opponent:
+        if (jack2 && card !== 'back'){
+            if (youAre === 'green' && circleBlue){
+               markAsAvailable(id)
+            } else if (youAre === 'blue' && circleGreen){
+               markAsAvailable(id)
+            }
+        } else 
+      
+         if (card === lastDiscarded && !circle.classList.contains('green') && !circle.classList.contains('blue')){
+                markAsAvailable(id)  
+            }
+})}
+
+//  check if there are winners part:
+
+function createColorGrid(color) {
+    const grid = [];
+    for (let row = 0; row < 10; row++) {
+        const gridRow = [];
+        for (let col = 0; col < 10; col++) {
+            const index = row * 10 + col;
+            const element = document.getElementById(`circle${index}`);
+            if (element.className.includes(color)){
+                gridRow.push(color);
+            } else {
+                gridRow.push(index)
+            }
+        }
+        grid.push(gridRow);
+    }
+    return grid
+    }
+
+
+
+    function hasFiveConsecutive(grid) {
+        const rows = 10; 
+        const cols = 10;
+    
+        const directions = [
+            { dr: 0, dc: 1 },  
+            { dr: 1, dc: 0 },  
+            { dr: 1, dc: 1 }, 
+            { dr: 1, dc: -1 }  
+        ];
+    
+        const result = {
+            count: 0,
+            indices: []
+        };
+    
+        const visited = new Set(); 
+    
+        function getIndex(r, c) {
+            return r * cols + c; 
+        }
+    
+        function checkDirection(r, c, dr, dc) {
+            const characteristic = grid[r][c];
+            const lineIndices = [];
+            let length = 0;
+    
+            while (
+                r >= 0 && r < rows &&
+                c >= 0 && c < cols &&
+                grid[r][c] === characteristic
+            ) {
+                const index = getIndex(r, c);
+                lineIndices.push(index);
+                r += dr;
+                c += dc;
+                length++;
+            }
+    
+            if (length >= 5) {
+                if (lineIndices.some(index => !visited.has(index))) {
+                    result.count++;
+                    lineIndices.forEach(index => visited.add(index));
+                    result.indices.push(...lineIndices);
+                }
+            }
+        }
+    
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                if (grid[r][c] !== null) { // Check for a marker
+                    for (const { dr, dc } of directions) {
+                        const prevR = r - dr;
+                        const prevC = c - dc;
+    
+                        // Ensure we start from the beginning of a sequence
+                        if (
+                            prevR < 0 || prevR >= rows ||
+                            prevC < 0 || prevC >= cols ||
+                            grid[prevR][prevC] !== grid[r][c]
+                        ) {
+                            checkDirection(r, c, dr, dc);
+                        }
+                    }
+                }
+            }
+        }
+    
+        return result;
+    }
+    
+
+
+function check5inARow(){
+    const green = createColorGrid('green')
+    const blue = createColorGrid('blue')
+    const greenWins = hasFiveConsecutive(green)
+    const blueWins = hasFiveConsecutive(blue)
+
+    //add "blocked" class to blocked circle elements
+    const blockedCircles = [...greenWins.indices, ...blueWins.indices]
+    if (blockedCircles.length >=5){
+        blockedCircles.forEach(index => {
+            document.getElementById(`circle${index}`).classList.add('blocked')
+        })
+    }
+
+
+    if (greenWins.count === 1 && greenLines === 0){
+        alert('Green player has one line')
+        greenLines++
+    } 
+    if (greenWins.count === 2){
+        alert('Green player wins with two lines!')
+        //end game here
+    }
+    if (blueWins.count === 1 && blueLines === 0){
+        alert('Blue player has one line')
+        blueLines++
+    } 
+    if (blueWins.count === 2){
+        alert('Blue player wins with two lines!')
+        //end game here
+    }
 }
