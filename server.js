@@ -7,6 +7,7 @@ const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 let games = {};
+let currentGameId
 let whoIsNext = 'blue'
 let youAre = 'green'
 
@@ -43,7 +44,8 @@ io.on('connection', (socket) => {
     socket.on('createGame', () => {
         deck = generateDeck();
         let shuffledDeck = shuffleDeck(deck);
-        const gameId = Math.floor(1000 + Math.random() * 9000).toString();
+         gameId = Math.floor(1000 + Math.random() * 9000).toString();
+        
         games[gameId] = { host: socket.id, players: [], deck: shuffledDeck};
         socket.join(gameId);
         socket.emit('gameCreated', gameId);
@@ -62,11 +64,9 @@ io.on('connection', (socket) => {
                
                 const half = Math.floor(game.deck.length / 2);
                 const firstPlayerHand = game.deck.slice(0, half);
-                // const player='green'
                 game.deck = game.deck.slice(half); 
                 io.to(socket.id).emit('dealCards', firstPlayerHand, 'green');
             } else if (game.players.length === 2) {
-                //emit that all players joined and game started
                 const gameStarted = true;
                 io.to(game.players[0]).emit('gameStarted', gameStarted);
                 io.to(game.players[1]).emit('gameStarted', gameStarted);
@@ -91,24 +91,7 @@ io.on('connection', (socket) => {
         io.to(game.host).emit('cardDiscarded', card, youAre, whoIsNext);
     }
 });
-
-
-    socket.on('dealCards', (gameId) => {
-        const game = games[gameId];
-        if (game) {
-
- const half = Math.floor(game.deck.length / 2);
- const firstPlayerHand = game.deck.slice(0, half);
- const secondPlayerHand = game.deck.slice(half);
-                io.to(game.players[0]).emit('dealCards', firstPlayerHand);
-                io.to(game.players[1]).emit('dealCards', secondPlayerHand);
-    
-                console.log(`Dealt cards: 
-                    Player 1: ${firstPlayerHand}, 
-                    Player 2: ${secondPlayerHand}`);
-           }
-    });
-    
+       
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
         for (const [gameId, game] of Object.entries(games)) {
@@ -119,17 +102,24 @@ io.on('connection', (socket) => {
             }
         }
     });
-
+   
     socket.on('turnEnded', (gameId, youAre) => {
         const game = games[gameId];
         whoIsNext = youAre === 'blue' ? 'green' : 'blue'
         if (game) {
-            io.to(game.host).emit('turnEnded')
+           io.to(game.host).emit('turnEnded')
            io.to(game.players[0]).emit('turnEnded', whoIsNext);
            io.to(game.players[1]).emit('turnEnded', whoIsNext);
         }
     });
 
+    socket.on('oneLine', (player) => {
+        const game = games[gameId];
+        if (game) {
+           io.to(game.players[0]).emit('oneLine', player);
+           io.to(game.players[1]).emit('oneLine', player);
+        } 
+    }) 
 });
 
 server.listen(PORT, () => {

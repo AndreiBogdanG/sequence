@@ -1,3 +1,5 @@
+const jsConfetti = new JSConfetti()
+
 const board = document.getElementById('board');
 const colors = ['none', 'green'];
 const cardsOrder = [
@@ -17,9 +19,10 @@ const playerDiv = document.getElementById('heldCards')
 let heldCards = []
 let helpOn = false
 const helpContainer = document.getElementById('helpContainer')
+const welcomeContainer = document.getElementById('welcomeContainer')
 const helpText = document.getElementById('helpText')
 helpText.innerHTML = `
-                <span class='bold larger'>New Game:</span><br> Press the "Create Game" button, then use the QR code to connect two phones. Enter the Game ID on the phones.
+                <span class='bold larger'>New Game:</span><br> Press the "Create Game" button, then use the QR code to connect two phones. Enter the Game ID on the phones. 
                 <hr>
                 <span class='bold larger'>Objective</span><br>
                 Be the first player to create two sequences of five consecutive markers in a row, column, or diagonal on the game board.<hr>
@@ -64,6 +67,12 @@ let greenLines = 0
 let initialCardsArray = []
 let currentPlayer 
 
+const gameOverContainer = document.getElementById('gameOverContainer')
+const newGameBtn = document.getElementById('newGameBtn')
+const welcomeNewGameBtn = document.getElementById('welcome-newGameBtn')
+const winnerPicDiv = document.getElementById('winnerPic')
+let winnerPic
+
 //pressing Escape closes the instructions window
 const OnEscapePressed = (event) => event.key === 'Escape' && EscapePressed();
 document.addEventListener('keydown', OnEscapePressed);
@@ -80,7 +89,6 @@ function createCard(id) {
     card.innerHTML = `<div class="circle" id="circle${id}"></div>`;
 
     card.style.border = 'none'
-
 
    function handleCardClick(){
 
@@ -107,22 +115,27 @@ function createCard(id) {
          currentCircle.classList.remove(`blue`)
          currentCircle.classList.remove(`green`)
          currentCircle.classList.add(`${colors[1]}`)
-        }  
 
-        check5inARow()  
+        }  
    } 
 
     card.addEventListener('click', () => {
+        handleCardClick()
 
-        handleCardClick()});
+        setTimeout(() => {
+            check5inARow();
+        }, 150);
+    });
 
     return card;
 }
+
 //render the cards on the board:
 for (let i = 0; i < 100; i++) {
     const card = createCard(i);
-    board.appendChild(card);
+    board.appendChild(card);    
 }
+
 
 // mark corners as green and blue, so they count for the winners
 const cornersArray = ['circle0', 'circle9', 'circle90', 'circle99']
@@ -131,7 +144,6 @@ cornersArray.forEach(circle => {
     document.getElementById(circle).classList.add('blue') 
     document.getElementById(circle).classList.add('none') 
 })
-
 
 function clearCircles(arr){
     arr.forEach((circle, id) => {
@@ -144,7 +156,6 @@ function clearCircles(arr){
 
 function restoreCircles(arr){
       arr.forEach((circle, id) => {
-
         const opponent = whoIsNext === 'green' ? 'green' : 'blue'
         circle.classList.remove('white');
         circle.classList.remove('none');  
@@ -153,7 +164,6 @@ function restoreCircles(arr){
         circle.classList.add(`${opponent}`)
    })
 }
-
 
 function toggleHelp(){
     helpOn = !helpOn
@@ -171,6 +181,7 @@ createGameBtn.addEventListener('click', () => {
 });
 
 socket.on('gameCreated', (gameId) => {
+    gameOverContainer.style.display = 'none'
     gameIdSpan.textContent = gameId;
     gameIdDisplay.style.display = 'block';
     waitingForPlayers.style.display = 'block';
@@ -204,13 +215,10 @@ socket.on('cardDiscarded', (card, youAre, next) => {
 
 function renderDiscardedCard(card) {
     discardedCardsDiv.style.backgroundImage = `URL(images/${card}.png)`
-
-    discardedCardsContainer.style.backgroundColor = currentPlayer === 'green' ? ' rgb(9, 68, 9)' : 'rgb(9, 54, 68)'
-    
+    discardedCardsContainer.style.backgroundColor = currentPlayer === 'green' ? ' rgb(9, 68, 9)' : 'rgb(9, 54, 68)'    
     cardsOrder.forEach((card, id) => {
         unmarkAvailable(id)
     })
-
 }
 
 function markAsAvailable(index){
@@ -224,8 +232,7 @@ function markAsAvailable(index){
       circle.classList.add('white');   
       availableCirclesArray.push(circle)
       availableCardsArray.push(card)
-   }
-        
+   }        
 }
 
 function unmarkAvailable(index){
@@ -239,6 +246,7 @@ function unmarkAvailable(index){
 function hideAvailableSpots(){
     availableCirclesArray.forEach(circle => {
         circle.classList.remove('white'); 
+        circle.classList.remove('none'); 
     })
     availableCardsArray.forEach(card => {
         card.style.border = 'none'
@@ -281,13 +289,14 @@ function showAvailableSpots(youAre){
 
 //  check if there are winners part:
 
-function createColorGrid(color) {
+function createColorGrid(color) {  
     const grid = [];
     for (let row = 0; row < 10; row++) {
         const gridRow = [];
         for (let col = 0; col < 10; col++) {
             const index = row * 10 + col;
             const element = document.getElementById(`circle${index}`);
+
             if (element.className.includes(color)){
                 gridRow.push(color);
             } else {
@@ -298,8 +307,6 @@ function createColorGrid(color) {
     }
     return grid
     }
-
-
 
     function hasFiveConsecutive(grid) {
         const rows = 10; 
@@ -388,21 +395,50 @@ function check5inARow(){
         })
     }
 
-
     if (greenWins.count === 1 && greenLines === 0){
+        hideAvailableSpots()
         alert('Green player has one line')
+        socket.emit('oneLine', 'green');
         greenLines++
     } 
+
     if (greenWins.count === 2){
+        hideAvailableSpots()
         alert('Green player wins with two lines!')
-        //end game here
+        displayWinner()
     }
+
     if (blueWins.count === 1 && blueLines === 0){
+        hideAvailableSpots()
         alert('Blue player has one line')
+        socket.emit('oneLine', 'blue');
         blueLines++
     } 
+
     if (blueWins.count === 2){
+        hideAvailableSpots()
         alert('Blue player wins with two lines!')
-        //end game here
+        displayWinner()
     }
 }
+
+
+function displayWinner(){
+    winnerPic = `images/${currentPlayer}Wins.jpg` 
+    winnerPicDiv.src = winnerPic;
+    gameOverContainer.style.display = 'flex'
+    jsConfetti.addConfetti({
+        emojis: ['🃏', '♥️', '♠️', '♣️', '♦️', '🂪', '🃁', '🂾'], confettiRadius: 6,
+        confettiNumber: 100
+     })
+}
+
+newGameBtn.addEventListener('click', () => {
+    location.reload()
+});
+
+document.addEventListener('click', () => {
+    welcomeContainer.style.visibility = 'hidden'
+})
+
+

@@ -20,6 +20,7 @@ joinGameBtn.addEventListener('click', () => {
 });
 
 socket.on('gameJoined', ({ gameId: joinedGameId, playerIndex }) => {
+    document.getElementById('joinGameBtn').style.display = 'none'
     youAre = playerIndex === 1 ? 'green' : 'blue';
     gameId = joinedGameId; 
 
@@ -39,6 +40,10 @@ socket.on('gameJoined', ({ gameId: joinedGameId, playerIndex }) => {
 
 socket.on('dealCards', (hand, player) => {
     playerCards = hand;
+
+    // deal cards for debugging purposes:
+    // playerCards = player === 'green' ? ['c12', 'd12', 'h12', 's12', 'c6', 'c7', 'c8', 'c9', 'c10', 'c12', 'c13', 'c14', 'c1', 's1', 's14', 's13', 's10', 's9', 's8', 's7'] : ['c12', 'd12', 'h12', 's12', 'h10', 'h9', 'h8', 'h7', 'h6', 'h5', 'h4', 'h3', 'd7', 'd8', 'd9', 'd10', 'd13', 'd14']
+
     youAre = player
     renderCards();
 });
@@ -48,12 +53,11 @@ socket.on('gameStarted', (gStarted) => {
     if (gStarted) {
         gameStarted = true
         canDiscard = true
-        document.getElementById('joinGameBtn').style.display = 'none'
     }
 })
 
 
-socket.on('turnEnded', whoIsNext =>{
+socket.on('turnEnded', whoIsNext => {
     nextPlayer = whoIsNext
     endTurnBtn.style.visibility =  nextPlayer === youAre ? 'visible' : 'hidden';
     const nextTurnText = nextPlayer === youAre ? "It's your turn. Play a card, then place your button on the board." : "Please wait, it's your opponent's turn."
@@ -97,6 +101,14 @@ socket.on('gameEnded', (message) => {
     alert(message);
     location.reload();
 });
+
+socket.on('oneLine', player => {
+    nextPlayer = player
+    youAre === player
+    setTimeout(() => {
+        endTurn()
+    }, 10);
+})
 
 function endTurn(){
     canDiscard = true

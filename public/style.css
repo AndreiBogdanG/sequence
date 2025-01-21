@@ -6,7 +6,6 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     height: 100vh;
     margin: 0;
     background-color: rgb(9, 68, 9);
@@ -75,6 +74,51 @@ body {
   #helpText {
     width: 80%;
     line-height: 1.3em;
+  }
+
+  #instructionsPic{
+    width: 150px;
+  }
+
+  #welcomeContainer {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(9, 68, 9);
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #welcomePage {
+    width: 80vw;
+    height: 95vh;
+    position: relative;
+    border-radius: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to bottom, #fefcf8, #fefcf8);
+    box-sizing: border-box;
+    color: #482307;
+  
+    box-shadow: inset 2px 2px 34px rgba(0, 0, 0, 0.3),
+      inset -2px -2px 34px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    font-size: 0.9em;
+  }
+  
+  #welcomeText {
+    width: 80%;
+    line-height: 1.3em;
+    font-size: 2em;
+    text-align: center;
+  }
+
+  #welcomePic{
+    width: 50vw;
   }
   
   .bold {
@@ -174,7 +218,7 @@ body {
   }
   
   .circle.white {
-    background-color: rgb(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid rgb(225, 255, 0);
   }
   
@@ -301,6 +345,12 @@ body {
     box-shadow: rgba(72, 35, 7, 0.46) 0 0 0 4px,
       -6px 8px 10px rgba(81, 41, 10, 0.1), 0px 2px 2px rgba(81, 41, 10, 0.2);
   }
+
+
+  .button-on-white{
+    box-shadow: rgba(72, 35, 7, 0.2) 0 0 0 4px,
+      -6px 8px 10px rgba(81, 41, 10, 0.1), 0px 2px 2px rgba(81, 41, 10, 0.1);
+  }
   
   #playerInfo {
     text-align: center;
@@ -334,6 +384,31 @@ body {
     gap: 1em;
   }
   
+
+  #gameOverContainer{
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: white;
+    /* display: flex; */
+    justify-content: center;
+    display: none;
+  }
+
+  #gameOverPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #newGameBtn{
+    margin: 2em;
+  }
+
+
+
   @media only screen and (max-width: 1000px) {
     body {
       display: flex;
@@ -384,6 +459,7 @@ body {
       width: 100vw;
       height: auto;
       margin: auto;
+      overflow-y: auto;
     }
   }
   

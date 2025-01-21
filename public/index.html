@@ -16,17 +16,26 @@
     </div>
     <div id="gameOverContainer">
         <div id="gameOverPage">
-            <!-- <div class="bgClose" onclick="toggleHelp()"></div> -->
+             <img id="winnerPic"alt="Winner">
+             <button id="newGameBtn" class="button-83">NEW GAME</button>
+        </div>
+    </div>
+    <div id="welcomeContainer">
+        <div id="welcomePage">
+             <img id="welcomePic" src='images/welcome.png' alt="Welcome to Sequence">
+             <p id="welcomeText">It's recommended to open this page on a PC and use the QR code to connect two phones for two players/teams.</p>
+             <p>Click anywhere to continue</p>
         </div>
     </div>
 
     <div id="main-container">
           <img class="titleImage" src="images/sequence.png" alt="game title">
           <div id="helpLink" onclick="toggleHelp()">INSTRUCTIONS</div>
-         <button class="button-83" id="createGameBtn">Create Game</button>
+         <button class="button-83" id="createGameBtn">New Game</button>
          <p id="gameIdDisplay">Game ID: <span id="gameId"></span></p>
          <p id="waitingForPlayers" style="display: none;">Waiting for players...</p>
-         <a href="https://sequence-ee5s.onrender.com/player.html"><img id="qrImage" src="images/qr.png" alt="qr code"></a>
+         <!-- <a href="https://sequence-ee5s.onrender.com/player.html"><img id="qrImage" src="images/qr.png" alt="qr code"></a> -->
+         <a href="player.html"><img id="qrImage" src="images/qr.png" alt="qr code"></a>
          
          <div id="discardedCardsContainer">
             <h2>Discarded</h2>
@@ -36,8 +45,8 @@
 
     <div class="board" id="board"></div>
 
-
-    <!-- <script src="index.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <script src="mainscript.js"></script>
+
 </body>
 </html>
