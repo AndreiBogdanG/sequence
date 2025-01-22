@@ -20,7 +20,7 @@
              <button id="newGameBtn" class="button-83">NEW GAME</button>
         </div>
     </div>
-    <div id="welcomeContainer">
+    <div id="welcomeContainer" onclick="closePopup()">
         <div id="welcomePage">
              <img id="welcomePic" src='images/welcome.png' alt="Welcome to Sequence">
              <p id="welcomeText">It's recommended to open this page on a PC and use the QR code to connect two phones for two players/teams.</p>
@@ -35,7 +35,8 @@
          <p id="gameIdDisplay">Game ID: <span id="gameId"></span></p>
          <p id="waitingForPlayers" style="display: none;">Waiting for players...</p>
          <!-- <a href="https://sequence-ee5s.onrender.com/player.html"><img id="qrImage" src="images/qr.png" alt="qr code"></a> -->
-         <a href="player.html"><img id="qrImage" src="images/qr.png" alt="qr code"></a>
+         <!-- <a id="qr-link" href="player.html"><img id="qrImage" src="images/qr.png" alt="qr code"></a> -->
+         <a id="qr-link" href="player.html"></a>
          
          <div id="discardedCardsContainer">
             <h2>Discarded</h2>

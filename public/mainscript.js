@@ -73,6 +73,21 @@ const welcomeNewGameBtn = document.getElementById('welcome-newGameBtn')
 const winnerPicDiv = document.getElementById('winnerPic')
 let winnerPic
 
+
+// CREATE QR
+let currentURL = window.location.href;
+if (currentURL.includes('localhost')){
+    currentURL = 'http://192.168.0.129:3000/'   // when I play it on my laptop :)
+}
+const link = `https://api.qrserver.com/v1/create-qr-code/?data=${currentURL}player.html&size=100x100`
+const qrLink = document.getElementById('qr-link')
+const img = document.createElement('img');
+img.src = link;
+img.id="qrImage" 
+img.alt="qr code"
+qrLink.appendChild(img);
+
+
 //pressing Escape closes the instructions window
 const OnEscapePressed = (event) => event.key === 'Escape' && EscapePressed();
 document.addEventListener('keydown', OnEscapePressed);
@@ -437,8 +452,10 @@ newGameBtn.addEventListener('click', () => {
     location.reload()
 });
 
-document.addEventListener('click', () => {
-    welcomeContainer.style.visibility = 'hidden'
-})
+// document.addEventListener('click', () => {
+//     welcomeContainer.style.visibility = 'hidden'
+// })
 
-
+function closePopup(){
+    welcomeContainer.style.visibility = 'hidden' 
+}

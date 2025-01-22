@@ -142,6 +142,8 @@ body {
   
   #qrImage {
     width: 150px;
+    background-color: rgb(255, 255, 255);
+    padding: 5px;
   }
   
   .titleImage {
@@ -354,6 +356,7 @@ body {
   
   #playerInfo {
     text-align: center;
+    padding: 1em;
   }
   
   #playerCards {
@@ -410,6 +413,7 @@ body {
 
 
   @media only screen and (max-width: 1000px) {
+  
     body {
       display: flex;
       flex-direction: column;
@@ -418,13 +422,17 @@ body {
   
     #main-container {
       position: static;
-      width: 100%;
+      width: 300px;
+      height: 100vh;
+      margin-left: auto;
       margin-bottom: 20px;
+      text-align: center;
+
     }
   
     .board {
       transform: none;
-      width: 90vw;
+      width: 80vw;
       height: auto;
       max-width: 600px;
       margin: 0;
@@ -449,17 +457,23 @@ body {
       height: 35px;
     }
   
-    #helpContainer {
+    #helpContainer, #welcomeContainer {
       position: fixed;
       top: 0;
       left: 0;
     }
   
-    #helpPage {
-      width: 100vw;
-      height: auto;
-      margin: auto;
-      overflow-y: auto;
+    #helpPage, #welcomePage {
+      width: 600vw;
+      height: 150vh;
+      position: static;
     }
+
+    #welcomeContainer{
+      max-width: fit-content;
+    }
+
+
+
   }
   
