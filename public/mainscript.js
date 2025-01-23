@@ -98,11 +98,11 @@ img.alt="qr code"
 qrLink.appendChild(img);
 
 
-//pressing Escape closes the instructions window
+//pressing Escape closes the welcome / instructions window
 const OnEscapePressed = (event) => event.key === 'Escape' && EscapePressed();
 document.addEventListener('keydown', OnEscapePressed);
 const EscapePressed = () => {
-    helpContainer.style.visibility = "hidden"
+    closePopup()
 };
 
 function createCard(id) {
@@ -193,10 +193,10 @@ function restoreCircles(arr){
 function toggleHelp(){
     helpOn = !helpOn
     if (helpOn) {
-        helpContainer.style.visibility = "visible"
+        helpContainer.style.display = "flex"
         mainContainer.style.position = "fixed"
     } else {
-        helpContainer.style.visibility = "hidden"
+        helpContainer.style.display = "none"
         mainContainer.style.position = initialContainerPosition
     }
 }
@@ -463,9 +463,9 @@ newGameBtn.addEventListener('click', () => {
 });
 
 function closePopup(){
-    welcomeContainer.style.visibility = 'hidden' 
+    helpContainer.style.display = "none"
+    welcomeContainer.style.display = 'none' 
     oneLineContainer.style.display = 'none'
-
 }
 
 function oneLinePopUp(color){

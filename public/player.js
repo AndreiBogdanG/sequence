@@ -42,7 +42,7 @@ socket.on('dealCards', (hand, player) => {
     playerCards = hand;
 
     // deal cards for debugging purposes:
-    // playerCards = player === 'green' ? ['c12', 'd12', 'h12', 's12', 'c6', 'c7', 'c8', 'c9', 'c10', 'c12', 'c13', 'c14', 'c1', 's1', 's14', 's13', 's10', 's9', 's8', 's7'] : ['c12', 'd12', 'h12', 's12', 'h10', 'h9', 'h8', 'h7', 'h6', 'h5', 'h4', 'h3', 'd7', 'd8', 'd9', 'd10', 'd13', 'd14']
+    playerCards = player === 'green' ? ['c12', 'd12', 'h12', 's12', 'c6', 'c7', 'c8', 'c9', 'c10', 'c12', 'c13', 'c14', 'c1', 's1', 's14', 's13', 's10', 's9', 's8', 's7'] : ['c12', 'd12', 'h12', 's12', 'h10', 'h9', 'h8', 'h7', 'h6', 'h5', 'h4', 'h3', 'd7', 'd8', 'd9', 'd10', 'd13', 'd14']
 
     youAre = player
     renderCards();
