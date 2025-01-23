@@ -58,6 +58,7 @@ socket.on('gameStarted', (gStarted) => {
 
 
 socket.on('turnEnded', whoIsNext => {
+
     nextPlayer = whoIsNext
     endTurnBtn.style.visibility =  nextPlayer === youAre ? 'visible' : 'hidden';
     const nextTurnText = nextPlayer === youAre ? "It's your turn. Play a card, then place your button on the board." : "Please wait, it's your opponent's turn."
@@ -104,7 +105,6 @@ socket.on('gameEnded', (message) => {
 
 socket.on('oneLine', player => {
     nextPlayer = player
-    youAre === player
     setTimeout(() => {
         endTurn()
     }, 10);
@@ -114,4 +114,8 @@ function endTurn(){
     canDiscard = true
     socket.emit('turnEnded', gameId, youAre);
     renderCards();
+}
+
+function otherPlayer(player){
+    return player === 'green' ? 'blue' : 'green'
 }

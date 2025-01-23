@@ -80,7 +80,7 @@ body {
     width: 150px;
   }
 
-  #welcomeContainer {
+  #welcomeContainer, #oneLineContainer {
     width: 100%;
     height: 100vh;
     background-color: rgb(9, 68, 9);
@@ -89,9 +89,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  #welcomePage {
+}
+
+ 
+  #welcomePage, #oneLinePage {
     width: 80vw;
     height: 95vh;
     position: relative;
@@ -100,7 +101,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(to bottom, #fefcf8, #fefcf8);
     box-sizing: border-box;
     color: #482307;
   
@@ -108,8 +108,43 @@ body {
       inset -2px -2px 34px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
     border: 2px solid rgba(0, 0, 0, 0.2);
     font-size: 0.9em;
+    background-color: #08AEEA;
+    background-image: linear-gradient(90deg, #08AEEA 0%, #2AF598 100%);
   }
   
+
+  #oneLineContainer{
+    align-items: center;
+    background: none;
+    display: none;
+  }
+  
+  #oneLinePage{
+    height: 80vh;
+    max-width: 800px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: white;
+    font-size: 1.1em;
+    background-color: #08AEEA;
+    border: 3px solid black;
+  }
+
+  #oneLineTextContainer{
+    background-color: #094409;
+    border: 3px solid black;
+    padding: 0.3em 2em;
+    border-radius: 1.5em;
+    text-align: center;
+  }
+
+  #oneLineText{ 
+    font-size: 1.5em;
+    color: #8DE825
+  }
+
+
   #welcomeText {
     width: 80%;
     line-height: 1.3em;
@@ -471,9 +506,19 @@ body {
 
     #welcomeContainer{
       max-width: fit-content;
-    }
+   }
 
+   #oneLineContainer{
+    background-color: #08AEEA;
+    position: fixed;
+    width: 130vw;
+    height: 130vh;
+    top: 0;
+  }
 
+  #oneLinePage{
+    border: none;
+  }
 
   }
   

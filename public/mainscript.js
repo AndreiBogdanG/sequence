@@ -50,6 +50,13 @@ helpText.innerHTML = `
                 If the draw pile runs out and no player has won, the game ends in a tie.
                 `
 const mainContainer = document.getElementById('main-container')
+
+const oneLineContainer = document.getElementById('oneLineContainer')
+const oneLinePage = document.getElementById('oneLinePage')
+const oneLinePic = document.getElementById('oneLinePic')
+const oneLineTextContainer = document.getElementById('oneLineTextContainer')
+const oneLineText = document.getElementById('oneLineText')
+
 const initialContainerPosition = mainContainer.style.position
 
 const socket = io();
@@ -72,6 +79,9 @@ const newGameBtn = document.getElementById('newGameBtn')
 const welcomeNewGameBtn = document.getElementById('welcome-newGameBtn')
 const winnerPicDiv = document.getElementById('winnerPic')
 let winnerPic
+
+
+
 
 
 // CREATE QR
@@ -412,27 +422,27 @@ function check5inARow(){
 
     if (greenWins.count === 1 && greenLines === 0){
         hideAvailableSpots()
-        alert('Green player has one line')
+        oneLinePopUp('green')
         socket.emit('oneLine', 'green');
-        greenLines++
+        greenLines++  
+        waitingForPlayers.textContent = `Green Lines: ${greenLines}    Blue Lines: ${blueLines}.`
     } 
 
     if (greenWins.count === 2){
         hideAvailableSpots()
-        alert('Green player wins with two lines!')
         displayWinner()
     }
 
     if (blueWins.count === 1 && blueLines === 0){
         hideAvailableSpots()
-        alert('Blue player has one line')
+        oneLinePopUp('blue')
         socket.emit('oneLine', 'blue');
         blueLines++
+        waitingForPlayers.textContent = `Green Lines: ${greenLines}    Blue Lines: ${blueLines}.`
     } 
 
     if (blueWins.count === 2){
         hideAvailableSpots()
-        alert('Blue player wins with two lines!')
         displayWinner()
     }
 }
@@ -452,10 +462,20 @@ newGameBtn.addEventListener('click', () => {
     location.reload()
 });
 
-// document.addEventListener('click', () => {
-//     welcomeContainer.style.visibility = 'hidden'
-// })
-
 function closePopup(){
     welcomeContainer.style.visibility = 'hidden' 
+    oneLineContainer.style.display = 'none'
+
 }
+
+function oneLinePopUp(color){
+    const linePlayerText = color === 'green' ? 'GREEN PLAYER HAS ONE LINE!' : 'BLUE PLAYER HAS ONE LINE!'
+    oneLineTextContainer.style.backgroundColor = color === 'green' ?  '#094409' : '#093644'
+    oneLinePic.src = `/images/${color}Player.png`
+    oneLineText.style.color = color === 'green' ?  '#8DE825' : '#38BCF8'
+    oneLinePage.style.backgroundColor = color === 'green' ? '#38BCF8' : '#8DE825'
+    oneLineText.innerText = linePlayerText
+    oneLineContainer.style.display = 'flex'
+    
+}
+

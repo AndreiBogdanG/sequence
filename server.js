@@ -115,9 +115,9 @@ io.on('connection', (socket) => {
 
     socket.on('oneLine', (player) => {
         const game = games[gameId];
+        const recipient = player === 'green' ? game.players[0] : game.players[1]
         if (game) {
-           io.to(game.players[0]).emit('oneLine', player);
-           io.to(game.players[1]).emit('oneLine', player);
+           io.to(recipient).emit('oneLine', player);
         } 
     }) 
 });
