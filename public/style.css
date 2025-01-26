@@ -157,6 +157,21 @@ body {
     font-weight: 700;
   }
   
+  #turnPhoneContainer{
+    max-width: 30vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    display: none;
+    text-align: center;
+  }
+
+  #turnPhonePic{
+    width: 150px;
+  }
+
+
   .larger {
     font-size: 1.5em;
   }
